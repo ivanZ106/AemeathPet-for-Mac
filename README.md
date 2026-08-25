@@ -58,7 +58,9 @@
 
 ## 📥 下载使用（免编译）
 
-- **下载**: [AemeathPet-macOS.zip](AemeathPet-macOS.zip) — 通用架构，**Apple Silicon 与 Intel Mac 均可运行**
+[![GitHub release](https://img.shields.io/github/v/release/ivanZ106/AemeathPet-for-Mac?label=最新版本&color=00A1D6)](https://github.com/ivanZ106/AemeathPet-for-Mac/releases/latest)
+
+- **下载**: 前往 [GitHub Releases](https://github.com/ivanZ106/AemeathPet-for-Mac/releases/latest) 下载最新版 `AemeathPet-macOS.zip`（通用架构，**Apple Silicon 与 Intel Mac 均可运行**）
 - 解压后把 `AemeathPet.app` 拖入「应用程序」文件夹，双击即可运行（无需任何依赖）
 - 若首次打开提示"无法验证开发者"：右键应用 → **打开**，或终端执行
   ```bash
