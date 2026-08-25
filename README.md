@@ -6,7 +6,7 @@
 使用 **原生 Swift + AppKit** 实现：**低内存占用（≈15MB）、低耗电**（自适应定时器 + 按帧调度 + 休眠暂停）。
 
 <p align="center">
-  <img src="assets/pet_states.gif" alt="爱弥斯桌宠 - 移动/待机/拖动 动画状态" width="85%">
+  <img src="assets/ameath.gif" alt="爱弥斯桌宠动画" width="55%">
 </p>
 
 ## ✨ 特性
