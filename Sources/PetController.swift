@@ -619,7 +619,7 @@ final class PetController: NSObject {
             let cx = b.midX, cy = b.midY
             let r = min(w, h) * 0.3
             let steps = 64
-            for lap in 0..<2 {
+            for _ in 0..<2 {
                 for i in 0...steps {
                     let a = 2 * .pi * CGFloat(i) / CGFloat(steps)
                     pts.append(CGPoint(x: cx + cos(a) * r, y: cy + sin(a) * r))
@@ -629,7 +629,7 @@ final class PetController: NSObject {
             let cx = b.midX, cy = b.midY
             let a = min(w, h) * 0.26
             let steps = 96
-            for lap in 0..<2 {
+            for _ in 0..<2 {
                 for i in 0...steps {
                     let t = 2 * .pi * CGFloat(i) / CGFloat(steps)
                     let den = 1 + sin(t) * sin(t)
@@ -811,7 +811,7 @@ final class PetController: NSObject {
         moveAccum += frameDt
         lastDisplayTime = now
 
-        if let ds = draggingSprite {
+        if draggingSprite != nil {
             // 拖动中：被拖动的宠物只播 drag 动画，其余宠物照常活动
             let fastInterval = sprites.first?.brain.fastInterval ?? 0.0167
             let shouldMove = moveAccum >= fastInterval

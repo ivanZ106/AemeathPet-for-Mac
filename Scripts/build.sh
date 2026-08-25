@@ -23,13 +23,18 @@ if [ ! -f Resources/manifest.json ]; then
     python3 Scripts/extract_frames.py
 fi
 
-echo "==> 编译 (swiftc -Osize)"
-mkdir -p build/module-cache
-swiftc -Osize -target arm64-apple-macosx12.0 \
-    -Xcc -fmodules-cache-path="$ROOT/build/module-cache" \
-    -framework AppKit -framework QuartzCore -framework CoreVideo \
-    -o "$MACOS/$APP_NAME" \
-    Sources/*.swift
+echo "==> 编译 (swiftc -Osize, 双架构通用)"
+mkdir -p build/module-cache build/arch
+# Apple Silicon (arm64) 与 Intel (x86_64) 分别编译，再合并为通用二进制
+for ARCH in arm64 x86_64; do
+    swiftc -Osize -target "$ARCH-apple-macosx12.0" \
+        -Xcc -fmodules-cache-path="$ROOT/build/module-cache" \
+        -framework AppKit -framework QuartzCore -framework CoreVideo \
+        -o "build/arch/$APP_NAME-$ARCH" \
+        Sources/*.swift || exit 1
+done
+lipo -create build/arch/$APP_NAME-arm64 build/arch/$APP_NAME-x86_64 -output "$MACOS/$APP_NAME"
+lipo -info "$MACOS/$APP_NAME"
 
 echo "==> 拷贝资源"
 cp -R Resources/frames "$RES/"
@@ -93,7 +98,13 @@ printf 'APPL????' > "$CONTENTS/PkgInfo"
 echo "==> 代码签名 (ad-hoc)"
 codesign --force --sign - "$BUNDLE" >/dev/null 2>&1 || true
 
+echo "==> 打包发行版 zip（通用架构：Apple Silicon + Intel）"
+rm -f "build/${APP_NAME}-macOS.zip"
+ditto -c -k --keepParent "$BUNDLE" "build/${APP_NAME}-macOS.zip"
+echo "   发行包: build/${APP_NAME}-macOS.zip"
+
 echo ""
 echo "✅ 构建完成: $BUNDLE"
 echo "   运行: open $BUNDLE"
 echo "   自检: $MACOS/$APP_NAME --selftest"
+echo "   发行包: build/${APP_NAME}-macOS.zip"

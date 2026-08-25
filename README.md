@@ -56,7 +56,23 @@
 - `sample` 采样：主线程 92% 时间处于 `mach_msg2_trap` 空闲等待
 - 物理内存 `phys_footprint` ≈ 13.5MB
 
-## 📦 运行
+## 📥 下载使用（免编译）
+
+- **下载**: [AemeathPet-macOS.zip](AemeathPet-macOS.zip) — 通用架构，**Apple Silicon 与 Intel Mac 均可运行**
+- 解压后把 `AemeathPet.app` 拖入「应用程序」文件夹，双击即可运行（无需任何依赖）
+- 若首次打开提示"无法验证开发者"：右键应用 → **打开**，或终端执行
+  ```bash
+  xattr -dr com.apple.quarantine /Applications/AemeathPet.app
+  ```
+
+## 🔨 构建（需要 Xcode 命令行工具 + Python3 + Pillow）
+
+```bash
+./Scripts/build.sh          # 产物: build/AemeathPet.app + build/AemeathPet-macOS.zip
+# 资源提取（首次自动执行）: python3 Scripts/extract_frames.py
+```
+
+## 📦 运行（开发者）
 
 ```bash
 # 直接运行（已构建产物）
