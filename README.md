@@ -45,10 +45,10 @@
 | 画布架构 | 窗口固定为透明画布，宠物图层在画布内移动——避免移动窗口导致内容更新被丢弃（动画永不跳动） |
 | 多开共享 | 多只宠物共享同一画布窗口与帧资源：实测 20 只仅 13.4MB（每只增量 <1MB），远轻于原版 60MB/只 |
 | 移动积分 | 20~120Hz 可调（默认 60Hz，上限为显示刷新率）；px/s 物理积分，与帧率无关 |
-| 无 60fps 渲染 | 只有帧变化才更新图层内容（CALayer.contents 引用替换），位置变化 ≥0.5pt 才移动窗口 |
+| 无 60fps 渲染 | 只有帧变化才更新图层内容（CALayer.contents 引用替换），位置变化 ≥0.5pt 才更新图层位置（窗口固定） |
 | 跟随省电 | 仅开启「跟随鼠标」时才轮询鼠标位置 |
 | 休眠暂停 | 屏幕休眠 / 会话锁定时停止全部定时器，唤醒后恢复 |
-| 原生实现 | 无 WebView / 无运行时（Python/Electron），swiftc -Osize 编译，二进制 ≈ 300KB |
+| 原生实现 | 无 WebView / 无运行时（Python/Electron），swiftc -Osize 编译，通用二进制 ≈ 570KB（arm64 + x86_64） |
 
 实测（Apple Silicon, macOS 15）：
 - 自检：60 秒游荡模拟（120Hz 驱动），动画帧推进 4.5 万次；探针实测帧间隔均匀（9.1fps，掉拍 0 次）
@@ -70,27 +70,12 @@
 ## 🔨 构建（需要 Xcode 命令行工具 + Python3 + Pillow）
 
 ```bash
-./Scripts/build.sh          # 产物: build/AemeathPet.app + build/AemeathPet-macOS.zip
+./Scripts/build.sh   # 产物: build/AemeathPet.app（通用架构）+ build/AemeathPet-macOS.zip
+open build/AemeathPet.app   # 运行（或拖入「应用程序」）
 # 资源提取（首次自动执行）: python3 Scripts/extract_frames.py
-```
-
-## 📦 运行（开发者）
-
-```bash
-# 直接运行（已构建产物）
-open build/AemeathPet.app
-
-# 或把 build/AemeathPet.app 拖入「应用程序」后打开
 ```
 
 **控制方式**：点击菜单栏的 🐱 图标弹出菜单；**直接用鼠标拖动宠物**（鼠标穿透默认关闭），右键宠物也可弹菜单。
-
-## 🔨 构建（需 Xcode 命令行工具）
-
-```bash
-./Scripts/build.sh          # 产物: build/AemeathPet.app
-# 资源提取（首次自动执行）: python3 Scripts/extract_frames.py
-```
 
 ## 🧪 自检
 
@@ -110,7 +95,7 @@ Aemeath_Pet/
 │   ├── Config.swift        # 配置档位 + UserDefaults
 │   ├── Assets.swift        # 帧/图标加载
 │   ├── PetBrain.swift      # 行为状态机（纯逻辑，可测试）
-│   ├── PetController.swift # 透明窗口 + 自适应定时器 + 拖动
+│   ├── PetController.swift # 画布窗口 + 多宠物 + 随机队形 + 拖动
 │   ├── StatusMenu.swift    # 菜单栏 + 菜单
 │   ├── AutoStart.swift     # 开机自启 (LaunchAgent)
 │   └── SelfTest.swift      # 自检
@@ -138,7 +123,7 @@ Aemeath_Pet/
 | 注册表开机自启 | LaunchAgent（无权限弹窗） |
 | 窗口贴靠特定程序 (win32gui) | 未移植（需辅助功能权限，暂不支持） |
 | 语音 / 音乐播放 | 未移植（保持轻量，低内存优先） |
-| 多宠物实例 | 单宠物（如需多只可后续扩展） |
+| 多宠物实例 | 多开模式（上限 100 只，各自独立随机行动） |
 
 ## 📜 许可与致谢
 
