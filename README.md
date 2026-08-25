@@ -6,19 +6,12 @@
 使用 **原生 Swift + AppKit** 实现：**低内存占用（≈15MB）、低耗电**（自适应定时器 + 按帧调度 + 休眠暂停）。
 
 <p align="center">
-  <table align="center">
-    <tr>
-      <td><img src="assets/move.gif" width="110" alt="移动"></td>
-      <td><img src="assets/idle1.gif" width="110" alt="待机"></td>
-      <td><img src="assets/idle2.gif" width="110" alt="待机"></td>
-      <td><img src="assets/idle3.gif" width="110" alt="待机"></td>
-      <td><img src="assets/idle4.gif" width="110" alt="待机"></td>
-      <td><img src="assets/drag.gif" width="110" alt="拖动"></td>
-    </tr>
-    <tr align="center">
-      <td>移动</td><td>待机1</td><td>待机2</td><td>待机3</td><td>待机4</td><td>拖动</td>
-    </tr>
-  </table>
+  <img src="assets/move.gif" width="110" alt="移动">
+  <img src="assets/idle1.gif" width="110" alt="待机">
+  <img src="assets/idle2.gif" width="110" alt="待机">
+  <img src="assets/idle3.gif" width="110" alt="待机">
+  <img src="assets/idle4.gif" width="110" alt="待机">
+  <img src="assets/drag.gif" width="110" alt="拖动">
 </p>
 
 ## ✨ 特性
